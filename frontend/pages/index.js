@@ -59,7 +59,10 @@ export default function LoginPage() {
   useEffect(() => {
     async function checkAuth() {
       const user = await getUser();
-      if (user) { router.replace('/dashboard'); return; }
+      if (user) {
+        router.replace('/dashboard');
+        return;
+      }
       setAuthStatus('ready');
       setTimeout(() => setCountersReady(true), 400);
     }
@@ -84,7 +87,7 @@ export default function LoginPage() {
           setPhrase(phrase.slice(0, -1));
         } else {
           setDeleting(false);
-          setPhraseIndex(i => (i + 1) % PHRASES.length);
+          setPhraseIndex((i) => (i + 1) % PHRASES.length);
         }
       }
     }, speed);
@@ -94,19 +97,32 @@ export default function LoginPage() {
 
   /* Animated counters */
   const c1 = useCounter(1247, 1400, countersReady);
-  const c2 = useCounter(94,   1000, countersReady);
-  const c3 = useCounter(18,   1200, countersReady);
+  const c2 = useCounter(94, 1000, countersReady);
+  const c3 = useCounter(18, 1200, countersReady);
 
-  function handleSignIn() { setSigningIn(true); signIn(); }
+  function handleSignIn() {
+    setSigningIn(true);
+    signIn();
+  }
 
   return (
     <>
       <Head>
         <title>Fiamma AI Pricing Strategist — Sign In</title>
-        <meta name="description" content="Sign in to Fiamma AI Pricing Strategist with your company Microsoft account." />
+        <meta
+          name="description"
+          content="Sign in to Fiamma AI Pricing Strategist with your company Microsoft account."
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       {/* Layered background */}
@@ -122,26 +138,32 @@ export default function LoginPage() {
       <div ref={spotlightRef} className={styles.spotlight} aria-hidden="true" />
 
       <main className={styles.page}>
-
         {/* ── HERO ── */}
         <section className={styles.hero} aria-label="Product title">
           <div className={styles.heroEyebrow}>Powered by AI</div>
 
           <h1 className={styles.heroTitle}>
-            AI <span className={styles.heroTitleAccent}>Pricing Strategist</span>
+            AI{' '}
+            <span className={styles.heroTitleAccent}>Pricing Strategist</span>
           </h1>
 
           {/* Typewriter */}
           <div className={styles.typewriterRow} aria-live="polite">
             <span className={styles.typewriterText}>{phrase}</span>
-            <span className={styles.cursor} aria-hidden="true">|</span>
+            <span className={styles.cursor} aria-hidden="true">
+              |
+            </span>
           </div>
 
           {/* Animated stats */}
           <div className={styles.heroStats}>
             <div className={styles.heroStat}>
-              <span className={styles.heroStatValue}>{c1.toLocaleString()}+</span>
-              <span className={styles.heroStatLabel}>Pricing decisions made</span>
+              <span className={styles.heroStatValue}>
+                {c1.toLocaleString()}+
+              </span>
+              <span className={styles.heroStatLabel}>
+                Pricing decisions made
+              </span>
             </div>
             <div className={styles.heroStatDivider} aria-hidden="true" />
             <div className={styles.heroStat}>
@@ -161,11 +183,15 @@ export default function LoginPage() {
           {authStatus === 'checking' ? (
             <div className={styles.loadingState} role="status">
               <div className={styles.spinner} aria-hidden="true" />
-              <p className={styles.loadingText}>Checking authentication&hellip;</p>
+              <p className={styles.loadingText}>
+                Checking authentication&hellip;
+              </p>
             </div>
           ) : (
             <>
-              <p className={styles.cardLabel}>Sign in to continue to your workspace</p>
+              <p className={styles.cardLabel}>
+                Sign in to continue to your workspace
+              </p>
 
               <div className={styles.divider}>
                 <div className={styles.dividerLine} />
@@ -199,25 +225,54 @@ export default function LoginPage() {
 
               {localDev && (
                 <div className={styles.devNotice} role="note">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
                   </svg>
                   <p>
                     <strong>Local dev:</strong> Auth requires the{' '}
-                    <a href="https://azure.github.io/static-web-apps-cli/" target="_blank" rel="noreferrer">SWA CLI</a>{' '}
+                    <a
+                      href="https://azure.github.io/static-web-apps-cli/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      SWA CLI
+                    </a>{' '}
                     or Azure deployment.
                   </p>
                 </div>
               )}
 
               <div className={styles.security} role="note">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
                 <p className={styles.securityText}>
-                  <strong>Authorised personnel only.</strong>{' '}
-                  Restricted to Fiamma employees. Protected by Microsoft&#39;s enterprise security.
+                  <strong>Authorised personnel only.</strong> Restricted to
+                  Fiamma employees. Protected by Microsoft&#39;s enterprise
+                  security.
                 </p>
               </div>
             </>
@@ -226,13 +281,16 @@ export default function LoginPage() {
 
         {/* ── BRAND BOX ── */}
         <div className={styles.brand} aria-label="Fiamma brand">
-          <div className={styles.brandMark} aria-hidden="true">F</div>
+          <div className={styles.brandMark} aria-hidden="true">
+            F
+          </div>
           <div className={styles.brandTextBlock}>
             <span className={styles.brandName}>Fiamma Holdings Berhad</span>
-            <span className={styles.brandSub}>© {new Date().getFullYear()} All rights reserved.</span>
+            <span className={styles.brandSub}>
+              © {new Date().getFullYear()} All rights reserved.
+            </span>
           </div>
         </div>
-
       </main>
     </>
   );
