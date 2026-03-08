@@ -15,7 +15,7 @@
     "next": "^12.1.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "recharts": "^3.7.0"
+    "recharts": "^2.15.4"
   },
   "devDependencies": {
     "@azure/static-web-apps-cli": "^2.0.2",
