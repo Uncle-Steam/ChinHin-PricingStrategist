@@ -18,6 +18,7 @@
     "recharts": "^3.7.0"
   },
   "devDependencies": {
+    "@azure/static-web-apps-cli": "^2.0.2",
     "concurrently": "^9.2.1",
     "eslint": "^8.11.0",
     "eslint-config-next": "^12.1.0",
