@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../styles/login.module.css';
@@ -33,27 +34,16 @@ export default function LoginPage() {
   const router = useRouter();
   const [authStatus, setAuthStatus] = useState('checking');
   const [signingIn, setSigningIn] = useState(false);
+  const localDev = isLocalDev();
+
+
+
+  /* ── Typewriter & Counters State ── */
   const [phrase, setPhrase] = useState('');
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [countersReady, setCountersReady] = useState(false);
-  const localDev = isLocalDev();
   const typingRef = useRef(null);
-  const spotlightRef = useRef(null);
-
-  /* ── Cursor spotlight tracking ── */
-  const handleMouseMove = useCallback((e) => {
-    const el = spotlightRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty('--mx', `${e.clientX - rect.left}px`);
-    el.style.setProperty('--my', `${e.clientY - rect.top}px`);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove]);
 
   /* ── Auth check ── */
   useEffect(() => {
@@ -64,7 +54,7 @@ export default function LoginPage() {
         return;
       }
       setAuthStatus('ready');
-      setTimeout(() => setCountersReady(true), 400);
+      setTimeout(() => setCountersReady(true), 400); // Trigger counters after initial mount
     }
     checkAuth();
   }, [router]);
@@ -109,187 +99,130 @@ export default function LoginPage() {
     <>
       <Head>
         <title>Fiamma AI Pricing Strategist — Sign In</title>
-        <meta
-          name="description"
-          content="Sign in to Fiamma AI Pricing Strategist with your company Microsoft account."
-        />
+        <meta name="description" content="Sign in to Fiamma AI Pricing Strategist with your company Microsoft account." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="true"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       </Head>
 
-      {/* Layered background */}
       <div className={styles.bg} aria-hidden="true" />
-      <div className={styles.bgGrid} aria-hidden="true" />
-
-      {/* Floating orbs */}
-      <div className={styles.orb1} aria-hidden="true" />
-      <div className={styles.orb2} aria-hidden="true" />
-      <div className={styles.orb3} aria-hidden="true" />
-
-      {/* Cursor spotlight overlay */}
-      <div ref={spotlightRef} className={styles.spotlight} aria-hidden="true" />
 
       <main className={styles.page}>
-        {/* ── HERO ── */}
-        <section className={styles.hero} aria-label="Product title">
-          <div className={styles.heroEyebrow}>Powered by AI</div>
-
-          <h1 className={styles.heroTitle}>
-            AI{' '}
-            <span className={styles.heroTitleAccent}>Pricing Strategist</span>
-          </h1>
-
-          {/* Typewriter */}
-          <div className={styles.typewriterRow} aria-live="polite">
-            <span className={styles.typewriterText}>{phrase}</span>
-            <span className={styles.cursor} aria-hidden="true">
-              |
-            </span>
-          </div>
-
-          {/* Animated stats */}
-          <div className={styles.heroStats}>
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatValue}>
-                {c1.toLocaleString()}+
-              </span>
-              <span className={styles.heroStatLabel}>
-                Pricing decisions made
-              </span>
+        <div className={styles.splitContainer}>
+          
+          {/* ── LEFT PANEL (BRAND) ── */}
+          <div className={styles.leftPanel}>
+            {/* Top Logo */}
+            <div className={styles.brandHeader} style={{ animationDelay: '0.1s' }}>
+              <div className={styles.brandMark}>
+                <Image
+                  src="/logos/fiamma_holdings_berhad_logo.jpg"
+                  alt="Fiamma Holdings Berhad Logo"
+                  width={40}
+                  height={40}
+                  style={{ objectFit: 'contain', width: '100%', height: '100%', borderRadius: '6px' }}
+                />
+              </div>
+              <span className={styles.brandName}>Fiamma Holdings Berhad</span>
             </div>
-            <div className={styles.heroStatDivider} aria-hidden="true" />
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatValue}>{c2}%</span>
-              <span className={styles.heroStatLabel}>Avg margin accuracy</span>
-            </div>
-            <div className={styles.heroStatDivider} aria-hidden="true" />
-            <div className={styles.heroStat}>
-              <span className={styles.heroStatValue}>{c3}s</span>
-              <span className={styles.heroStatLabel}>Avg time to quote</span>
-            </div>
-          </div>
-        </section>
 
-        {/* ── LOGIN CARD ── */}
-        <div className={styles.card}>
-          {authStatus === 'checking' ? (
-            <div className={styles.loadingState} role="status">
-              <div className={styles.spinner} aria-hidden="true" />
-              <p className={styles.loadingText}>
-                Checking authentication&hellip;
-              </p>
-            </div>
-          ) : (
-            <>
-              <p className={styles.cardLabel}>
-                Sign in to continue to your workspace
-              </p>
-
-              <div className={styles.divider}>
-                <div className={styles.dividerLine} />
-                <span className={styles.dividerText}>Continue with</span>
-                <div className={styles.dividerLine} />
+            {/* Middle Content */}
+            <div className={styles.heroContent}>
+              <h1 className={styles.heroTitle} style={{ animationDelay: '0.2s' }}>
+                AI Pricing<br/>Strategist
+              </h1>
+              
+              <div className={styles.typewriterRow} style={{ animationDelay: '0.3s' }}>
+                <span className={styles.typewriterText}>{phrase}</span>
+                <span className={styles.cursor} aria-hidden="true">|</span>
               </div>
 
-              <button
-                className={styles.btnMicrosoft}
-                onClick={handleSignIn}
-                disabled={signingIn}
-                aria-label="Sign in with Microsoft"
-              >
-                {signingIn ? (
-                  <>
-                    <div className={styles.spinnerSmall} aria-hidden="true" />
-                    Redirecting to Microsoft&hellip;
-                  </>
+              <div className={styles.heroStats} style={{ animationDelay: '0.4s' }}>
+                <div className={styles.heroStat}>
+                  <span className={styles.heroStatValue}>{c1.toLocaleString()}+</span>
+                  <span className={styles.heroStatLabel}>Decisions</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <span className={styles.heroStatValue}>{c2}%</span>
+                  <span className={styles.heroStatLabel}>Accuracy</span>
+                </div>
+                <div className={styles.heroStatDivider} />
+                <div className={styles.heroStat}>
+                  <span className={styles.heroStatValue}>{c3}s</span>
+                  <span className={styles.heroStatLabel}>Speed</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Footer */}
+            <div className={styles.heroFooter} style={{ animationDelay: '0.5s' }}>
+              &copy; {new Date().getFullYear()} Fiamma. All rights reserved.
+            </div>
+            
+          </div>
+
+          {/* ── RIGHT PANEL (LOGIN) ── */}
+          <div className={styles.rightPanel}>
+            <div className={styles.loginContent}>
+              
+              <div className={styles.mobileLogo}>
+                <Image
+                  src="/logos/fiamma_holdings_berhad_logo.jpg"
+                  alt="Fiamma Logo"
+                  width={40}
+                  height={40}
+                  style={{ borderRadius: '6px' }}
+                />
+              </div>
+
+              <h2 className={styles.loginTitle} style={{ animationDelay: '0.2s' }}>Welcome Back!</h2>
+              <p className={styles.loginPrompt} style={{ animationDelay: '0.3s' }}>
+                Sign in to your dashboard to access real-time pricing strategies and automated margin analytics.
+              </p>
+
+              <div className={styles.formContainer} style={{ animationDelay: '0.4s' }}>
+                {authStatus === 'checking' ? (
+                  <div className={styles.loadingState} role="status">
+                    <div className={styles.spinner} aria-hidden="true" />
+                  </div>
                 ) : (
                   <>
-                    <div className={styles.msIcon} aria-hidden="true">
-                      <span className={styles.msRed} />
-                      <span className={styles.msGreen} />
-                      <span className={styles.msBlue} />
-                      <span className={styles.msYellow} />
-                    </div>
-                    Sign in with Microsoft
+                    <button
+                      className={styles.btnMicrosoft}
+                      onClick={handleSignIn}
+                      disabled={signingIn}
+                    >
+                      {signingIn ? (
+                        <>
+                          <div className={styles.spinnerSmall} aria-hidden="true" />
+                          Redirecting...
+                        </>
+                      ) : (
+                        <>
+                          <div className={styles.msIcon} aria-hidden="true">
+                            <span className={styles.msRed} />
+                            <span className={styles.msGreen} />
+                            <span className={styles.msBlue} />
+                            <span className={styles.msYellow} />
+                          </div>
+                          Sign in with Microsoft
+                        </>
+                      )}
+                    </button>
+
+                    {localDev && (
+                      <div className={styles.devNotice} role="note" style={{ animationDelay: '0.5s' }}>
+                        <p><strong>Local dev:</strong> Auth requires the SWA CLI.</p>
+                      </div>
+                    )}
                   </>
                 )}
-              </button>
-
-              {localDev && (
-                <div className={styles.devNotice} role="note">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                  <p>
-                    <strong>Local dev:</strong> Auth requires the{' '}
-                    <a
-                      href="https://azure.github.io/static-web-apps-cli/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      SWA CLI
-                    </a>{' '}
-                    or Azure deployment.
-                  </p>
-                </div>
-              )}
-
-              <div className={styles.security} role="note">
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <p className={styles.securityText}>
-                  <strong>Authorised personnel only.</strong> Restricted to
-                  Fiamma employees. Protected by Microsoft&#39;s enterprise
-                  security.
-                </p>
               </div>
-            </>
-          )}
-        </div>
+              
+            </div>
+          </div>
 
-        {/* ── BRAND BOX ── */}
-        <div className={styles.brand} aria-label="Fiamma brand">
-          <div className={styles.brandMark} aria-hidden="true">
-            F
-          </div>
-          <div className={styles.brandTextBlock}>
-            <span className={styles.brandName}>Fiamma Holdings Berhad</span>
-            <span className={styles.brandSub}>
-              © {new Date().getFullYear()} All rights reserved.
-            </span>
-          </div>
         </div>
       </main>
     </>
